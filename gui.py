@@ -91,20 +91,7 @@ class GraspingGUI:
             self.coords_var.set("Object coordinates: None")
     
     def grab_object(self):
-        if len(self.vision.detected_objects) > 0:
-            target = self.vision.detected_objects[0]
-            x, y = target['position']
-            self.status_var.set("Status: Grabbing object...")
-            self.root.update()
-            
-            try:
-                self.arm.move_to(x, y, 50)  # Примерные координаты
-                self.arm.grab()
-                self.status_var.set("Status: Object grabbed")
-            except Exception as e:
-                self.status_var.set(f"Status: Error - {str(e)}")
-        else:
-            self.status_var.set("Status: No objects to grab")
+        """Взять  объект"""
     
     def update_video(self):
         ret, frame = self.vision.get_frame()
