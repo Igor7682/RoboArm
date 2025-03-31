@@ -22,15 +22,19 @@ class GraspingGUI:
         main_frame.pack(fill='both', expand=True, padx=10, pady=10)
         
         # Video frame
-        video_container = ttk.Frame(main_frame)
+        video_container = ttk.Frame(main_frame, width=400, height=300)
         video_container.grid(row=0, column=0, sticky='nsew', padx=5, pady=5)
-        
+        video_container.pack_propagate(False)
+
         self.video_label = ttk.Label(video_container)
         self.video_label.pack()
         
         # Info frame
         info_frame = ttk.LabelFrame(main_frame, text="System Information")
         info_frame.grid(row=0, column=1, sticky='nsew', padx=5, pady=5)
+        
+
+
         
         # Status labels
         self.status_var = tk.StringVar(value="Status: Ready")
@@ -42,6 +46,9 @@ class GraspingGUI:
         self.coords_var = tk.StringVar(value="Object coordinates: None")
         ttk.Label(info_frame, textvariable=self.coords_var, font=('Arial', 10)).pack(anchor='w', pady=5)
         
+        
+
+
         # Control buttons frame
         btn_frame = ttk.Frame(main_frame)
         btn_frame.grid(row=1, column=0, columnspan=2, sticky='ew', pady=10)
@@ -113,7 +120,7 @@ class GraspingGUI:
             imgtk = ImageTk.PhotoImage(image=img)
             
             self.video_label.imgtk = imgtk
-            self.video_label.configure(image=imgtk)
+            self.video_label.configure(image=imgtk,)
             
             # Обновляем информацию о количестве объектов
             count = len(self.vision.detected_objects)

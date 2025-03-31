@@ -12,7 +12,7 @@ def main():
         
         # Создание интерфейса
         root = tk.Tk()
-        root.geometry("900x600")
+        root.geometry("1280x900")
         
         # Стиль для кнопок
         style = ttk.Style()

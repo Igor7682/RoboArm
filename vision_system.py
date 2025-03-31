@@ -23,14 +23,14 @@ class VisionSystem:
 
     
     def detect_objects(self):
-        """Улучшенное обнаружение объектов"""
+        """Обнаружение объектов"""
         if self.current_frame is None:
             return
             
         # Преобразование в HSV для лучшего выделения объектов
         hsv = cv2.cvtColor(self.current_frame, cv2.COLOR_BGR2HSV)
         
-        # Создание маски (пример для красных объектов)
+        # Создание маски 
         lower_red = np.array([0, 120, 70])
         upper_red = np.array([10, 255, 255])
         mask1 = cv2.inRange(hsv, lower_red, upper_red)
