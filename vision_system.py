@@ -23,7 +23,7 @@ class VisionSystem:
 
     
     def detect_objects(self):
-        """Улучшенное обнаружение объектов"""
+        """Обнаружение объектов"""
         if self.current_frame is None:
             return
             

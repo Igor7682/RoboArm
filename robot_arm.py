@@ -8,7 +8,7 @@ class RobotArm:
         self.current_angles = [0, 0, 0, 0, 0, 0]
         
     def forward_kinematics(self, angles):
-        """Прямая кинематика (упрощенная реализация)"""
+        """Прямая кинематика"""
        
     
     def inverse_kinematics(self, target_pos):
