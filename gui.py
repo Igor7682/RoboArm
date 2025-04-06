@@ -154,6 +154,20 @@ class GraspingGUI:
         
         self.root.after(30, self.update_video)
     
+
+
+    def process_detected_objects(self, frame):
+        """Обработка обнаруженных объектов"""
+        for i, obj in enumerate(self.vision.detected_objects):
+            x, y = obj['position']
+            cv2.drawContours(frame, [obj['contour']], -1, (0, 255, 0), 1)
+            cv2.circle(frame, (x, y), 3, (0, 255, 0), -1)
+            cv2.putText(frame, str(i+1), (x-10, y-10), 
+                       cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 255, 0), 1)
+        
+        self.update_objects_table()
+
+
     def on_close(self):
         self.vision.release()
         self.root.destroy()
