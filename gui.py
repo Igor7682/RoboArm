@@ -22,9 +22,10 @@ class GraspingGUI:
         main_frame.pack(fill='both', expand=True, padx=10, pady=10)
         
         # Video frame
-        video_container = ttk.Frame(main_frame)
+        video_container = ttk.Frame(main_frame, width=400, height=300)
         video_container.grid(row=0, column=0, sticky='nsew', padx=5, pady=5)
-        
+        video_container.pack_propagate(False)
+
         self.video_label = ttk.Label(video_container)
         self.video_label.pack()
         
@@ -32,15 +33,17 @@ class GraspingGUI:
         info_frame = ttk.LabelFrame(main_frame, text="System Information")
         info_frame.grid(row=0, column=1, sticky='nsew', padx=5, pady=5)
         
+
+
+        
         # Status labels
         self.status_var = tk.StringVar(value="Status: Ready")
         ttk.Label(info_frame, textvariable=self.status_var, font=('Arial', 10)).pack(anchor='w', pady=5)
-        
         self.objects_var = tk.StringVar(value="Objects detected: 0")
         ttk.Label(info_frame, textvariable=self.objects_var, font=('Arial', 10)).pack(anchor='w', pady=5)
-        
         self.coords_var = tk.StringVar(value="Object coordinates: None")
         ttk.Label(info_frame, textvariable=self.coords_var, font=('Arial', 10)).pack(anchor='w', pady=5)
+        
         
         # Control buttons frame
         btn_frame = ttk.Frame(main_frame)
@@ -79,6 +82,33 @@ class GraspingGUI:
         main_frame.columnconfigure(1, weight=1)
         main_frame.rowconfigure(0, weight=1)
     
+
+    def setup_objects_table(self, parent):
+        """Настройка таблицы объектов"""
+        self.objects_tree = ttk.Treeview(parent, columns=('ID', 'X', 'Y', 'Width', 'Height'), show='headings', height=5)
+        
+        # Настройка колонок
+        columns = {
+            'ID': {'text': 'ID', 'width': 40, 'anchor': 'center'},
+            'X': {'text': 'X', 'width': 60, 'anchor': 'center'},
+            'Y': {'text': 'Y', 'width': 60, 'anchor': 'center'},
+            'Width': {'text': 'Width', 'width': 60, 'anchor': 'center'},
+            'Height': {'text': 'Height', 'width': 60, 'anchor': 'center'}
+        }
+        
+        for col, params in columns.items():
+            self.objects_tree.heading(col, text=params['text'])
+            self.objects_tree.column(col, width=params['width'], anchor=params['anchor'])
+        
+        # Добавляем прокрутку
+        scrollbar = ttk.Scrollbar(parent, orient="vertical", command=self.objects_tree.yview)
+        self.objects_tree.configure(yscrollcommand=scrollbar.set)
+        
+        # Размещаем элементы
+        self.objects_tree.pack(side='left', fill='both', expand=True)
+        scrollbar.pack(side='right', fill='y')
+
+
     def toggle_detection(self):
         self.vision.detection_enabled = not self.vision.detection_enabled
         state = "ON" if self.vision.detection_enabled else "OFF"
@@ -113,7 +143,7 @@ class GraspingGUI:
             imgtk = ImageTk.PhotoImage(image=img)
             
             self.video_label.imgtk = imgtk
-            self.video_label.configure(image=imgtk)
+            self.video_label.configure(image=imgtk,)
             
             # Обновляем информацию о количестве объектов
             count = len(self.vision.detected_objects)
@@ -124,6 +154,20 @@ class GraspingGUI:
         
         self.root.after(30, self.update_video)
     
+
+
+    def process_detected_objects(self, frame):
+        """Обработка обнаруженных объектов"""
+        for i, obj in enumerate(self.vision.detected_objects):
+            x, y = obj['position']
+            cv2.drawContours(frame, [obj['contour']], -1, (0, 255, 0), 1)
+            cv2.circle(frame, (x, y), 3, (0, 255, 0), -1)
+            cv2.putText(frame, str(i+1), (x-10, y-10), 
+                       cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 255, 0), 1)
+        
+        self.update_objects_table()
+
+
     def on_close(self):
         self.vision.release()
         self.root.destroy()
