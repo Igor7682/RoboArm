@@ -30,7 +30,7 @@ class VisionSystem:
         # Преобразование в HSV для лучшего выделения объектов
         hsv = cv2.cvtColor(self.current_frame, cv2.COLOR_BGR2HSV)
         
-        # Создание маски 
+        # Создание маски (пример для красных объектов)
         lower_red = np.array([0, 120, 70])
         upper_red = np.array([10, 255, 255])
         mask1 = cv2.inRange(hsv, lower_red, upper_red)
