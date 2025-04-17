@@ -10,6 +10,7 @@ class VisionSystem:
         self.detection_enabled = False
         self.current_frame = None
         self.detected_objects = []
+        self.objInfo = []
         
     def get_frame(self):
         ret, frame = self.cap.read()
@@ -20,7 +21,8 @@ class VisionSystem:
             return True, frame
         return False, None
     
-
+    def getObj(self):
+        return self.objInfo
     
     def detect_objects(self):
         """Обнаружение объектов"""
@@ -35,11 +37,11 @@ class VisionSystem:
         upper_red = np.array([10, 255, 255])
         mask1 = cv2.inRange(hsv, lower_red, upper_red)
         
-        lower_red = np.array([170, 120, 70])
-        upper_red = np.array([180, 255, 255])
+        lower_red = np.array([36,25,25])
+        upper_red = np.array([86, 255, 255])
         mask2 = cv2.inRange(hsv, lower_red, upper_red)
         
-        mask = cv2.bitwise_or(mask1, mask2)
+        mask = cv2.bitwise_or(mask2, mask2)
         
         # Улучшение маски
         kernel = np.ones((5,5), np.uint8)
@@ -49,8 +51,10 @@ class VisionSystem:
         # Нахождение контуров
         contours, _ = cv2.findContours(mask, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
         self.detected_objects = []
-        
+        self.objInfo.clear()
+        objNum  = 0
         for cnt in contours:
+            objNum = objNum + 1
             area = cv2.contourArea(cnt)
             if area > 500:  # Игнорируем маленькие объекты
                 x, y, w, h = cv2.boundingRect(cnt)
@@ -68,6 +72,14 @@ class VisionSystem:
                     'size': (w, h),
                     'contour': cnt,
                     'area': area
+                })
+
+                self.objInfo.append({
+                    'ID': objNum,
+                    'X': x,
+                    'Y':y,
+                    'Width': w,
+                    'Height': h
                 })
     
     def release(self):
