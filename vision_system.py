@@ -1,6 +1,7 @@
 import cv2
 import numpy as np
 from settings import CAMERA_ID, FRAME_WIDTH, FRAME_HEIGHT
+from model import predict
 
 class VisionSystem:
     def __init__(self):
@@ -11,6 +12,7 @@ class VisionSystem:
         self.current_frame = None
         self.detected_objects = []
         self.objInfo = []
+        self.armPos = []
         
     def get_frame(self):
         ret, frame = self.cap.read()
@@ -23,6 +25,13 @@ class VisionSystem:
     
     def getObj(self):
         return self.objInfo
+    
+    def getPos(self):
+        return self.armPos
+    
+    def predPos(self,x,y):
+        pos = predict([x, y])
+        return pos
     
     def detect_objects(self):
         """Обнаружение объектов"""
@@ -52,6 +61,7 @@ class VisionSystem:
         contours, _ = cv2.findContours(mask, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
         self.detected_objects = []
         self.objInfo.clear()
+        self.armPos.clear()
         objNum  = 0
         for cnt in contours:
             objNum = objNum + 1
@@ -81,6 +91,9 @@ class VisionSystem:
                     'Width': w,
                     'Height': h
                 })
+                if x>0:
+                    self.armPos.append(self.predPos(x,y))
+                    print(self.armPos)
     
     def release(self):
         self.cap.release()

@@ -42,13 +42,13 @@ class GraspingGUI:
         ttk.Label(info_frame, textvariable=self.status_var, font=('Arial', 10)).pack(anchor='w', pady=5)
         self.objects_var = tk.StringVar(value="Objects detected: 0")
         ttk.Label(info_frame, textvariable=self.objects_var, font=('Arial', 10)).pack(anchor='w', pady=5)
-        self.coords_var = tk.StringVar(value="Object coordinates: None")
+        self.coords_var = tk.StringVar(value="")
         ttk.Label(info_frame, textvariable=self.coords_var, font=('Arial', 10)).pack(anchor='w', pady=5)
         
         
 
         btn_frame = ttk.Frame(main_frame)
-        btn_frame.grid(row=2, column=0, columnspan=2, sticky='ew', pady=10)
+        btn_frame.grid(row=3, column=0, columnspan=2, sticky='ew', pady=10)
         
 
         self.detection_btn = ttk.Button(
@@ -92,12 +92,21 @@ class GraspingGUI:
         main_frame.columnconfigure(1, weight=1)
         main_frame.rowconfigure(0, weight=1)
         main_frame.rowconfigure(1, weight=2)
+
+        table_frame1 = ttk.LabelFrame(main_frame, text="Detected Objects")
+        table_frame1.grid(row=2, column=0, columnspan=2, sticky='nsew', padx=5, pady=5)
+    
+        main_frame.columnconfigure(0, weight=1)
+        main_frame.columnconfigure(1, weight=1)
+        main_frame.rowconfigure(0, weight=1)
+        main_frame.rowconfigure(1, weight=2)
         
 
         self.setup_objects_table(table_frame)
 
+
+
     def setup_objects_table(self, parent):
-        """Настройка таблицы объектов"""
         self.objects_tree = ttk.Treeview(parent, columns=('ID'), show='headings', height=2)
         
 
@@ -109,20 +118,46 @@ class GraspingGUI:
             self.objects_tree.heading(col, text=params['text'])
             self.objects_tree.column(col, width=params['width'], anchor=params['anchor'])
         
-        # Добавляем прокрутку
         scrollbar = ttk.Scrollbar(parent, orient="vertical", command=self.objects_tree.yview)
         self.objects_tree.configure(yscrollcommand=scrollbar.set)
-        
+    
 
-
-        # Размещаем элементы
+      
         self.objects_tree.pack(side='left', fill='both', expand=True)
 
         scrollbar.pack(side='right', fill='y')
 
+
+
+
+        self.objects_tree1 = ttk.Treeview(parent, columns=('1'), show='headings', height=2)
+        
+        columns = {
+            '1': {'text': 'Значения углов суставов', 'width': 40, 'anchor': 'center'},
+        }
+        
+        for col, params in columns.items():
+            self.objects_tree1.heading(col, text=params['text'])
+            self.objects_tree1.column(col, width=params['width'], anchor=params['anchor'])
+        
+        scrollbar = ttk.Scrollbar(parent, orient="vertical", command=self.objects_tree.yview)
+        self.objects_tree1.configure(yscrollcommand=scrollbar.set)
+    
+
+      
+        self.objects_tree1.pack(side='left', fill='both', expand=True)
+
+        scrollbar.pack(side='right', fill='y')
+
     def fillTable(self):
+
         for obj in self.vision.getObj():
              self.objects_tree.insert("", END, values=obj)
+        pos = self.vision.getPos()
+        if len(pos) > 0:
+            self.objects_tree1.insert("", END, values=pos)
+            print(pos)
+
 
     def toggle_detection(self):
         self.vision.detection_enabled = not self.vision.detection_enabled
@@ -133,9 +168,9 @@ class GraspingGUI:
             self.grab_btn.config(state='normal')
             
             
-        else:
-            self.grab_btn.config(state='disabled')
-            self.coords_var.set("Object coordinates: None")
+       # else:
+            #self.grab_btn.config(state='disabled')
+            #self.coords_var.set("Object coordinates: None")
     
     def grab_object(self):
         """Взять  объект"""
@@ -152,8 +187,7 @@ class GraspingGUI:
                     cv2.drawContours(frame, [obj['contour']], -1, (0, 255, 0), 2)
                     
                     # Обновляем координаты первого объекта
-                    self.coords_var.set(f"Object coordinates: X={x}, Y={y}")
-            
+                    
             # Конвертируем для Tkinter
             img = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
             img = Image.fromarray(img)
@@ -166,10 +200,10 @@ class GraspingGUI:
             count = len(self.vision.detected_objects)
             self.objects_var.set(f"Objects detected: {count}")
             self.objects_tree.delete(*self.objects_tree.get_children())
+            self.objects_tree1.delete(*self.objects_tree1.get_children())
             self.fillTable()
             
-            if count == 0 and self.vision.detection_enabled:
-                self.coords_var.set("Object coordinates: None")
+            
         
         self.root.after(30, self.update_video)
     
