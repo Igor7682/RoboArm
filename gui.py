@@ -69,6 +69,16 @@ class GraspingGUI:
         )
         self.grab_btn.pack(side='left', padx=5)
 
+
+
+        self.screen_btn = ttk.Button(
+            btn_frame,
+            text="Screen save",
+            command=self.vision.saveFrame(),
+            state='disabled',
+            width=15
+        )
+        self.screen_btn.pack(side='left', padx=5)
         
 
         exit_btn = ttk.Button(
@@ -104,7 +114,7 @@ class GraspingGUI:
 
         self.setup_objects_table(table_frame)
 
-
+    
 
     def setup_objects_table(self, parent):
         self.objects_tree = ttk.Treeview(parent, columns=('ID'), show='headings', height=2)

@@ -1,5 +1,6 @@
 import cv2
 import numpy as np
+import os
 from settings import CAMERA_ID, FRAME_WIDTH, FRAME_HEIGHT
 from model import predict
 
@@ -23,6 +24,16 @@ class VisionSystem:
             return True, frame
         return False, None
     
+    def saveFrame(self):
+        ret, frame = self.cap.read()
+        if ret:
+            self.current_frame = frame.copy()
+            filename = os.urandom(8)
+            cv2.imwrite(filename,self.current_frame)
+            return True
+        return False
+
+
     def getObj(self):
         return self.objInfo
     
@@ -94,6 +105,9 @@ class VisionSystem:
                 if x>0:
                     self.armPos.append(self.predPos(x,y))
                     print(self.armPos)
+
+
+    
     
     def release(self):
         self.cap.release()
