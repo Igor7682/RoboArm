@@ -2,7 +2,7 @@ import cv2
 import numpy as np
 import os
 from settings import CAMERA_ID, FRAME_WIDTH, FRAME_HEIGHT
-from model import predict
+from newModel import predict
 
 class VisionSystem:
     def __init__(self):
@@ -104,13 +104,13 @@ class VisionSystem:
                     'area': area
                 })
 
-                self.objInfo.append({
-                    'ID': objNum,
-                    'X': x,
-                    'Y':y,
-                    'Width': w,
-                    'Height': h
-                })
+                self.objInfo.append((
+                    objNum,
+                    x,
+                    y,
+                    w,
+                    h
+                ))
                 if x>0:
                     self.armPos.append(self.predPos(x,y))
                     print(self.armPos)

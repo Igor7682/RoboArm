@@ -116,11 +116,15 @@ class GraspingGUI:
     
 
     def setup_objects_table(self, parent):
-        self.objects_tree = ttk.Treeview(parent, columns=('ID'), show='headings', height=2)
+        self.objects_tree = ttk.Treeview(parent, columns=('ID',"X","Y","W","H"), show='headings', height=2)
         
 
         columns = {
-            'ID': {'text': 'Объекты', 'width': 40, 'anchor': 'center'},
+            'ID': {'text': 'ID', 'width': 40, 'anchor': 'center'},
+            'X': {'text': 'X', 'width': 40, 'anchor': 'center'},
+            'Y': {'text': 'Y', 'width': 40, 'anchor': 'center'},
+            'W': {'text': 'W', 'width': 40, 'anchor': 'center'},
+            'H': {'text': 'H', 'width': 40, 'anchor': 'center'},
         }
         
         for col, params in columns.items():
@@ -159,14 +163,14 @@ class GraspingGUI:
         scrollbar.pack(side='right', fill='y')
 
     def fillTable(self):
-
-        for obj in self.vision.getObj():
+        ob = self.vision.getObj()
+        for obj in ob:
              self.objects_tree.insert("", END, values=obj)
         pos = self.vision.getPos()
         if len(pos) > 0:
             self.objects_tree1.insert("", END, values=pos)
             print(pos)
-
+    
 
     def toggle_detection(self):
         self.vision.detection_enabled = not self.vision.detection_enabled
