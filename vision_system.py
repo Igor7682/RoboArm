@@ -28,7 +28,7 @@ class VisionSystem:
         ret, frame = self.cap.read()
         if ret:
             self.current_frame = frame.copy()
-            filename = os.urandom(8)
+            filename = "sccreen.jpg"
             cv2.imwrite(filename,self.current_frame)
             return True
         return False
@@ -49,18 +49,27 @@ class VisionSystem:
         if self.current_frame is None:
             return
             
-        # Преобразование в HSV для лучшего выделения объектов
+
         hsv = cv2.cvtColor(self.current_frame, cv2.COLOR_BGR2HSV)
         
-        # Создание маски (пример для красных объектов)
+        #green
+        # lower_red = np.array([0, 120, 70])
+        # upper_red = np.array([10, 255, 255])
+        # mask1 = cv2.inRange(hsv, lower_red, upper_red)
+        
+        # lower_red = np.array([36,25,25])
+        # upper_red = np.array([86, 255, 255])
+        # mask2 = cv2.inRange(hsv, lower_red, upper_red)
+        
+        #blue
         lower_red = np.array([0, 120, 70])
         upper_red = np.array([10, 255, 255])
         mask1 = cv2.inRange(hsv, lower_red, upper_red)
         
-        lower_red = np.array([36,25,25])
-        upper_red = np.array([86, 255, 255])
+        lower_red = np.array([90, 50, 70])
+        upper_red = np.array([128, 255, 255])
         mask2 = cv2.inRange(hsv, lower_red, upper_red)
-        
+
         mask = cv2.bitwise_or(mask2, mask2)
         
         # Улучшение маски

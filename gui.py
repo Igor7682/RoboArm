@@ -75,7 +75,6 @@ class GraspingGUI:
             btn_frame,
             text="Screen save",
             command=self.vision.saveFrame(),
-            state='disabled',
             width=15
         )
         self.screen_btn.pack(side='left', padx=5)
