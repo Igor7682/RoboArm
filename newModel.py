@@ -3,16 +3,13 @@ import torch.nn as nn
 import torch.optim as optim
 from torch.utils.data import DataLoader, TensorDataset
 import numpy as np
-#import matplotlib.pyplot as plt
-X = torch.tensor([[388, 215], [516, 173], [559, 146], [582, 113]], dtype=torch.float32)
-Y = torch.tensor([[30, 63], [40, 60], [45, 58], [50, 57]], dtype=torch.float32)
-
+from datasets import X,Y
+import matplotlib.pyplot as plt
 
 def data():
 # 1. Подготовка данных
 
-
-    # Нормализация данных (рекомендуется для лучшей сходимости)
+    # Нормализация данных 
     X_mean, X_std = X.mean(dim=0), X.std(dim=0)
     Y_mean, Y_std = Y.mean(dim=0), Y.std(dim=0)
     X_normalized = (X - X_mean) / X_std
@@ -40,7 +37,6 @@ def train(X_normalized,Y_normalized):
     criterion = nn.MSELoss()
     optimizer = optim.Adam(model.parameters(), lr=0.01)
 
-    # Создаем DataLoader
     dataset = TensorDataset(X_normalized, Y_normalized)
     loader = DataLoader(dataset, batch_size=2, shuffle=True)
 
