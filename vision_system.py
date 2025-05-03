@@ -3,6 +3,7 @@ import numpy as np
 import os
 from settings import CAMERA_ID, FRAME_WIDTH, FRAME_HEIGHT
 from newModel import predict
+import time
 
 class VisionSystem:
     def __init__(self):
@@ -82,38 +83,39 @@ class VisionSystem:
         self.detected_objects = []
         self.objInfo.clear()
         self.armPos.clear()
-        objNum  = 0
+        objNum = 0
         for cnt in contours:
             objNum = objNum + 1
             area = cv2.contourArea(cnt)
             if area > 500:  # Игнорируем маленькие объекты
                 x, y, w, h = cv2.boundingRect(cnt)
-                
-                # Вычисление центра масс
-                M = cv2.moments(cnt)
-                if M["m00"] != 0:
-                    cx = int(M["m10"] / M["m00"])
-                    cy = int(M["m01"] / M["m00"])
-                else:
-                    cx, cy = x + w//2, y + h//2
-                
-                self.detected_objects.append({
-                    'position': (cx, cy),
-                    'size': (w, h),
-                    'contour': cnt,
-                    'area': area
-                })
+                if w > 100:
+                    # Вычисление центра масс
+                    M = cv2.moments(cnt)
+                    if M["m00"] != 0:
+                        cx = int(M["m10"] / M["m00"])
+                        cy = int(M["m01"] / M["m00"])
+                    else:
+                        cx, cy = x + w//2, y + h//2
+                    
+                    self.detected_objects.append({
+                        'position': (cx, cy),
+                        'size': (w, h),
+                        'contour': cnt,
+                        'area': area
+                    })
 
-                self.objInfo.append((
-                    objNum,
-                    x,
-                    y,
-                    w,
-                    h
-                ))
-                if x>0:
-                    self.armPos.append(self.predPos(x,y))
-                    print(self.armPos)
+                    self.objInfo.append((
+                        objNum,
+                        x,
+                        y,
+                        w,
+                        h
+                    ))
+                    if x>0:
+                        self.armPos.append(self.predPos(x,y))
+                        print(self.armPos)
+                        
 
 
     

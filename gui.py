@@ -165,7 +165,7 @@ class GraspingGUI:
     def fillTable(self):
         ob = self.vision.getObj()
         for obj in ob:
-             self.objects_tree.insert("", END, values=obj)
+            self.objects_tree.insert("", END, values=obj)
         pos = self.vision.getPos()
         if len(pos) > 0:
             self.objects_tree1.insert("", END, values=pos)
@@ -215,9 +215,7 @@ class GraspingGUI:
             self.objects_tree.delete(*self.objects_tree.get_children())
             self.objects_tree1.delete(*self.objects_tree1.get_children())
             self.fillTable()
-            
-            
-        
+             
         self.root.after(30, self.update_video)
     
     def on_close(self):

@@ -61,12 +61,32 @@ def train(X_normalized,Y_normalized):
 # plt.show()    
 
 def predict(input_values):
-    model.load_state_dict(torch.load('two_to_two_model.pth'))
+    # model.load_state_dict(torch.load('newModel2.pth'))
+    # print(input_values)
+    # model.eval()
+    # with torch.no_grad():
+    #     input_tensor = torch.FloatTensor(input_values).unsqueeze(0)
+    #     prediction = model(input_tensor)
+    #     return prediction.squeeze().numpy()
     model.eval()
     with torch.no_grad():
-        input_tensor = torch.FloatTensor(input_values).unsqueeze(0)
-        prediction = model(input_tensor)
-        return prediction.squeeze().numpy()
+
+        X_mean, X_std = X.mean(dim=0), X.std(dim=0)
+        Y_mean, Y_std = Y.mean(dim=0), Y.std(dim=0)
+        test_inputs = torch.tensor([[input_values[0], input_values[1]]], dtype=torch.float32)
+        test_inputs = (test_inputs - X_mean) / X_std  # Нормализация
+        
+        predictions = model(test_inputs)
+        predictions = predictions * Y_std + Y_mean  # Денормализация
+        
+        return predictions.numpy()
+
+        # print("\nПредсказания для новых данных:")
+        # for inp, pred in zip(test_inputs, predictions):
+        #     original_input = inp * X_std + X_mean
+        #     print(f"Вход: {original_input.numpy()} -> Предсказание: {pred.numpy()}")
+
+
 
 def test():
 # 5. Проверка на тестовых данных
@@ -75,7 +95,7 @@ def test():
 
         X_mean, X_std = X.mean(dim=0), X.std(dim=0)
         Y_mean, Y_std = Y.mean(dim=0), Y.std(dim=0)
-        test_inputs = torch.tensor([[400, 200], [450, 180]], dtype=torch.float32)
+        test_inputs = torch.tensor([[250, 260], [300, 210]], dtype=torch.float32)
         test_inputs = (test_inputs - X_mean) / X_std  # Нормализация
         
         predictions = model(test_inputs)
@@ -87,9 +107,10 @@ def test():
             print(f"Вход: {original_input.numpy()} -> Предсказание: {pred.numpy()}")
 
 # 6. Сохранение модели
-# torch.save(model.state_dict(), 'two_to_two_model.pth')
+
 
 if __name__ == "__main__":
     X_normalized, Y_normalized = data()
     train(X_normalized,Y_normalized)
     test()
+    torch.save(model.state_dict(), 'newModel2.pth')
