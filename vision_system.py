@@ -54,24 +54,20 @@ class VisionSystem:
         hsv = cv2.cvtColor(self.current_frame, cv2.COLOR_BGR2HSV)
         
         #green
-        # lower_red = np.array([0, 120, 70])
-        # upper_red = np.array([10, 255, 255])
-        # mask1 = cv2.inRange(hsv, lower_red, upper_red)
-        
-        # lower_red = np.array([36,25,25])
-        # upper_red = np.array([86, 255, 255])
-        # mask2 = cv2.inRange(hsv, lower_red, upper_red)
-        
-        #blue
-        lower_red = np.array([0, 120, 70])
-        upper_red = np.array([10, 255, 255])
-        mask1 = cv2.inRange(hsv, lower_red, upper_red)
-        
-        lower_red = np.array([90, 50, 70])
-        upper_red = np.array([128, 255, 255])
-        mask2 = cv2.inRange(hsv, lower_red, upper_red)
+        # lower = np.array([36,25,25])
+        # upper = np.array([86, 255, 255])
 
-        mask = cv2.bitwise_or(mask2, mask2)
+        #blue
+        # lower = np.array([90, 50, 70])
+        # upper = np.array([128, 255, 25])
+
+        lower = np.array([100, 150, 0])
+        upper = np.array([140, 255, 255])
+
+
+
+        mask1 = cv2.inRange(hsv, lower, upper)
+        mask = cv2.bitwise_or(mask1, mask1)
         
         # Улучшение маски
         kernel = np.ones((5,5), np.uint8)
@@ -84,12 +80,15 @@ class VisionSystem:
         self.objInfo.clear()
         self.armPos.clear()
         objNum = 0
+
+        
+
         for cnt in contours:
             objNum = objNum + 1
             area = cv2.contourArea(cnt)
-            if area > 500:  # Игнорируем маленькие объекты
+            if area > 10:  # Игнорируем маленькие объекты
                 x, y, w, h = cv2.boundingRect(cnt)
-                if w > 100:
+                if h > 20:
                     # Вычисление центра масс
                     M = cv2.moments(cnt)
                     if M["m00"] != 0:

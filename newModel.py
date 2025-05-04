@@ -6,7 +6,7 @@ import numpy as np
 from datasets import X,Y
 import matplotlib.pyplot as plt
 
-def data():
+def normData():
 # 1. Подготовка данных
 
     # Нормализация данных 
@@ -53,15 +53,9 @@ def train(X_normalized,Y_normalized):
         if epoch % 50 == 0:
             print(f'Epoch {epoch}, Loss: {loss.item():.4f}')
 
-# # 4. Визуализация обучения
-# plt.plot(losses)
-# plt.title('График потерь при обучении')
-# plt.xlabel('Эпоха')
-# plt.ylabel('MSE Loss')
-# plt.show()    
 
 def predict(input_values):
-    # model.load_state_dict(torch.load('newModel2.pth'))
+    model.load_state_dict(torch.load('newModel3.pth'))
     # print(input_values)
     # model.eval()
     # with torch.no_grad():
@@ -78,9 +72,8 @@ def predict(input_values):
         
         predictions = model(test_inputs)
         predictions = predictions * Y_std + Y_mean  # Денормализация
-        
-        return predictions.numpy()
 
+        return predictions.numpy()
         # print("\nПредсказания для новых данных:")
         # for inp, pred in zip(test_inputs, predictions):
         #     original_input = inp * X_std + X_mean
@@ -110,7 +103,7 @@ def test():
 
 
 if __name__ == "__main__":
-    X_normalized, Y_normalized = data()
+    X_normalized, Y_normalized = normData()
     train(X_normalized,Y_normalized)
     test()
-    torch.save(model.state_dict(), 'newModel2.pth')
+    torch.save(model.state_dict(), 'newModel3.pth')

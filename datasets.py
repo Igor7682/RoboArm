@@ -10,3 +10,6 @@ from settings import ARM_CONFIG
 
 X = torch.tensor([[264, 132], [400, 100], [450, 50], [510, 30],[566,0]], dtype=torch.float32)
 Y = torch.tensor([[30, 63],[35, 61] ,[40, 60], [45, 58], [50, 57]], dtype=torch.float32)
+
+X = torch.tensor([[255, 257], [290, 310], [480, 340], [455, 270],[420,200]], dtype=torch.float32)
+Y = torch.tensor([[30, 63],[35, 61] ,[40, 60], [45, 58], [50, 57]], dtype=torch.float32)
