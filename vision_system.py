@@ -61,9 +61,12 @@ class VisionSystem:
         # lower = np.array([90, 50, 70])
         # upper = np.array([128, 255, 25])
 
-        lower = np.array([100, 150, 0])
-        upper = np.array([140, 255, 255])
+        # lower = np.array([100, 150, 0])
+        # upper = np.array([140, 255, 255])
 
+
+        lower = np.array([94, 80, 2])
+        upper = np.array([126, 255, 255])
 
 
         mask1 = cv2.inRange(hsv, lower, upper)
@@ -88,7 +91,7 @@ class VisionSystem:
             area = cv2.contourArea(cnt)
             if area > 10:  # Игнорируем маленькие объекты
                 x, y, w, h = cv2.boundingRect(cnt)
-                if h > 20:
+                if h > 2:
                     # Вычисление центра масс
                     M = cv2.moments(cnt)
                     if M["m00"] != 0:
