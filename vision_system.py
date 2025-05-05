@@ -1,7 +1,9 @@
 import cv2
 import numpy as np
+import os
 from settings import CAMERA_ID, FRAME_WIDTH, FRAME_HEIGHT
-from model import predict
+from newModel import predict
+import time
 
 class VisionSystem:
     def __init__(self):
@@ -23,6 +25,16 @@ class VisionSystem:
             return True, frame
         return False, None
     
+    def saveFrame(self):
+        ret, frame = self.cap.read()
+        if ret:
+            self.current_frame = frame.copy()
+            filename = "sccreen.jpg"
+            cv2.imwrite(filename,self.current_frame)
+            return True
+        return False
+
+
     def getObj(self):
         return self.objInfo
     
@@ -38,19 +50,27 @@ class VisionSystem:
         if self.current_frame is None:
             return
             
-        # Преобразование в HSV для лучшего выделения объектов
+
         hsv = cv2.cvtColor(self.current_frame, cv2.COLOR_BGR2HSV)
         
-        # Создание маски (пример для красных объектов)
-        lower_red = np.array([0, 120, 70])
-        upper_red = np.array([10, 255, 255])
-        mask1 = cv2.inRange(hsv, lower_red, upper_red)
-        
-        lower_red = np.array([36,25,25])
-        upper_red = np.array([86, 255, 255])
-        mask2 = cv2.inRange(hsv, lower_red, upper_red)
-        
-        mask = cv2.bitwise_or(mask2, mask2)
+        #green
+        # lower = np.array([36,25,25])
+        # upper = np.array([86, 255, 255])
+
+        #blue
+        # lower = np.array([90, 50, 70])
+        # upper = np.array([128, 255, 25])
+
+        # lower = np.array([100, 150, 0])
+        # upper = np.array([140, 255, 255])
+
+
+        lower = np.array([94, 80, 2])
+        upper = np.array([126, 255, 255])
+
+
+        mask1 = cv2.inRange(hsv, lower, upper)
+        mask = cv2.bitwise_or(mask1, mask1)
         
         # Улучшение маски
         kernel = np.ones((5,5), np.uint8)
@@ -62,38 +82,45 @@ class VisionSystem:
         self.detected_objects = []
         self.objInfo.clear()
         self.armPos.clear()
-        objNum  = 0
+        objNum = 0
+
+        
+
         for cnt in contours:
             objNum = objNum + 1
             area = cv2.contourArea(cnt)
-            if area > 500:  # Игнорируем маленькие объекты
+            if area > 10:  # Игнорируем маленькие объекты
                 x, y, w, h = cv2.boundingRect(cnt)
-                
-                # Вычисление центра масс
-                M = cv2.moments(cnt)
-                if M["m00"] != 0:
-                    cx = int(M["m10"] / M["m00"])
-                    cy = int(M["m01"] / M["m00"])
-                else:
-                    cx, cy = x + w//2, y + h//2
-                
-                self.detected_objects.append({
-                    'position': (cx, cy),
-                    'size': (w, h),
-                    'contour': cnt,
-                    'area': area
-                })
+                if h > 2:
+                    # Вычисление центра масс
+                    M = cv2.moments(cnt)
+                    if M["m00"] != 0:
+                        cx = int(M["m10"] / M["m00"])
+                        cy = int(M["m01"] / M["m00"])
+                    else:
+                        cx, cy = x + w//2, y + h//2
+                    
+                    self.detected_objects.append({
+                        'position': (cx, cy),
+                        'size': (w, h),
+                        'contour': cnt,
+                        'area': area
+                    })
 
-                self.objInfo.append({
-                    'ID': objNum,
-                    'X': x,
-                    'Y':y,
-                    'Width': w,
-                    'Height': h
-                })
-                if x>0:
-                    self.armPos.append(self.predPos(x,y))
-                    print(self.armPos)
+                    self.objInfo.append((
+                        objNum,
+                        x,
+                        y,
+                        w,
+                        h
+                    ))
+                    if x>0:
+                        self.armPos.append(self.predPos(x,y))
+                        print(self.armPos)
+                        
+
+
+    
     
     def release(self):
         self.cap.release()
