@@ -3,6 +3,7 @@ from tkinter import *
 from tkinter import ttk
 from PIL import Image, ImageTk
 import cv2
+#import armGrab
 from settings import COLORS
 
 
@@ -50,7 +51,7 @@ class GraspingGUI:
         btn_frame = ttk.Frame(main_frame)
         btn_frame.grid(row=3, column=0, columnspan=2, sticky='ew', pady=10)
         
-
+        #detection button
         self.detection_btn = ttk.Button(
             btn_frame, 
             text="Enable Detection", 
@@ -59,7 +60,7 @@ class GraspingGUI:
         )
         self.detection_btn.pack(side='left', padx=5)
         
-
+        # grab button
         self.grab_btn = ttk.Button(
             btn_frame,
             text="Grab Object",
@@ -69,8 +70,10 @@ class GraspingGUI:
         )
         self.grab_btn.pack(side='left', padx=5)
 
+        # calculate button
 
 
+        # screenshot button
         self.screen_btn = ttk.Button(
             btn_frame,
             text="Screen save",
@@ -79,7 +82,7 @@ class GraspingGUI:
         )
         self.screen_btn.pack(side='left', padx=5)
         
-
+        # exit button
         exit_btn = ttk.Button(
             btn_frame,
             text="Exit",
@@ -187,6 +190,11 @@ class GraspingGUI:
     
     def grab_object(self):
         """Взять  объект"""
+        pos = self.vision.getPos()
+        a1 = pos[0]
+        a2 = pos[1]
+        #armGrab.grab(a1,a2)
+
     
     def update_video(self):
         ret, frame = self.vision.get_frame()

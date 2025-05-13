@@ -57,14 +57,14 @@ class VisionSystem:
         # lower = np.array([36,25,25])
         # upper = np.array([86, 255, 255])
 
-        #blue
+        #blue1
         # lower = np.array([90, 50, 70])
         # upper = np.array([128, 255, 25])
 
         # lower = np.array([100, 150, 0])
         # upper = np.array([140, 255, 255])
 
-
+        #blue2 
         lower = np.array([94, 80, 2])
         upper = np.array([126, 255, 255])
 

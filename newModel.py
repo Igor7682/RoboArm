@@ -5,7 +5,7 @@ from torch.utils.data import DataLoader, TensorDataset
 import numpy as np
 from datasets import X,Y
 import matplotlib.pyplot as plt
-
+    
 def normData():
 # 1. Подготовка данных
 
