@@ -18,13 +18,13 @@ import Rooky2
 import time
 
 # Укажем тип Rooky left или right
-side = "left"
+
 
 #83-75-67-59
 #37-44-51-60
 # Создадим объект Rooky в соответствии с его типом: левая или правая
 # '/dev/RS_485' - последовательный порт, для ubuntu по умолчанию - '/dev/RS_485'.
-arm = Rooky2.Rooky('COM3', side)
+
 
 
 
@@ -38,7 +38,8 @@ arm = Rooky2.Rooky('COM3', side)
 #7 - пальцы 74
 def grab(angle1,angle2):
 
-
+    side = "left"
+    arm = Rooky2.Rooky('COM5', side)
     arm.move_joints([{
             'name':'{0}_arm_1_joint'.format(side),
             'degree': 90
@@ -95,6 +96,6 @@ def grab(angle1,angle2):
 if __name__ == "__main__":
     ang1 = 30
     ang2 = 63
-    grab(ang1,ang2)
+    #grab(ang1,ang2)
 
 

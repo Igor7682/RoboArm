@@ -1,0 +1,16 @@
+Metadata-Version: 2.4
+Name: Rooky-Python-module
+Version: 0.1.0
+Summary: Python modules to communicate with Rooky
+Home-page: promo-bot.ru
+Author: Promobot
+License: Apache license 2.0
+Project-URL: Documentation, https://promo-bot.ru
+Project-URL: Source Code, https://github.com/Promobot-education
+Requires-Python: >=2.7
+Dynamic: author
+Dynamic: home-page
+Dynamic: license
+Dynamic: project-url
+Dynamic: requires-python
+Dynamic: summary

@@ -3,7 +3,8 @@ from tkinter import *
 from tkinter import ttk
 from PIL import Image, ImageTk
 import cv2
-#import armGrab
+import numpy as np
+import armGrab
 from settings import COLORS
 
 
@@ -77,7 +78,7 @@ class GraspingGUI:
         self.screen_btn = ttk.Button(
             btn_frame,
             text="Screen save",
-            command=self.vision.saveFrame(),
+            command=self.fillTable,
             width=15
         )
         self.screen_btn.pack(side='left', padx=5)
@@ -165,7 +166,13 @@ class GraspingGUI:
 
         scrollbar.pack(side='right', fill='y')
 
+    
+    def calcPos(self):
+        self.fillTable()
+
     def fillTable(self):
+        self.objects_tree.delete(*self.objects_tree.get_children())
+        self.objects_tree1.delete(*self.objects_tree1.get_children())
         ob = self.vision.getObj()
         for obj in ob:
             self.objects_tree.insert("", END, values=obj)
@@ -191,9 +198,13 @@ class GraspingGUI:
     def grab_object(self):
         """Взять  объект"""
         pos = self.vision.getPos()
-        a1 = pos[0]
-        a2 = pos[1]
-        #armGrab.grab(a1,a2)
+        #pos = pos.flatten()
+        x = pos[0][0][0]
+        y = pos[0][0][1]
+        #print(pos)
+        #print(x)
+        #print(y)
+        armGrab.grab(x,y)
 
     
     def update_video(self):
@@ -220,9 +231,8 @@ class GraspingGUI:
             # Обновляем информацию о количестве объектов
             count = len(self.vision.detected_objects)
             self.objects_var.set(f"Objects detected: {count}")
-            self.objects_tree.delete(*self.objects_tree.get_children())
-            self.objects_tree1.delete(*self.objects_tree1.get_children())
-            self.fillTable()
+
+            
              
         self.root.after(30, self.update_video)
     

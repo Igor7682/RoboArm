@@ -72,8 +72,8 @@ def predict(input_values):
         
         predictions = model(test_inputs)
         predictions = predictions * Y_std + Y_mean  # Денормализация
-
-        return predictions.numpy()
+        
+        return predictions.tolist()
         # print("\nПредсказания для новых данных:")
         # for inp, pred in zip(test_inputs, predictions):
         #     original_input = inp * X_std + X_mean
@@ -94,10 +94,10 @@ def test():
         predictions = model(test_inputs)
         predictions = predictions * Y_std + Y_mean  # Денормализация
         
-        print("\nПредсказания для новых данных:")
+        #print("\nПредсказания для новых данных:")
         for inp, pred in zip(test_inputs, predictions):
             original_input = inp * X_std + X_mean
-            print(f"Вход: {original_input.numpy()} -> Предсказание: {pred.numpy()}")
+            #print(f"Вход: {original_input.numpy()} -> Предсказание: {pred.numpy()}")
 
 # 6. Сохранение модели
 

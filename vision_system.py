@@ -114,9 +114,9 @@ class VisionSystem:
                         w,
                         h
                     ))
-                    if x>0:
+                    if x > 0:
                         self.armPos.append(self.predPos(x,y))
-                        print(self.armPos)
+                        #print(self.armPos)
                         
 
 
