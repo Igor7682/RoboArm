@@ -21,7 +21,10 @@ class VisionSystem:
 
         if ret:
             #self.current_frame = frame.copy()
-            self.current_frame = cv2.detailEnhance(frame, sigma_s=70, sigma_r=0.15)
+            brightness = 10
+            contrast = 2.3  
+            # self.current_frame = cv2.addWeighted(frame, contrast, np.zeros(frame.shape, frame.dtype), 0, brightness)
+            self.current_frame = cv2.detailEnhance(frame, sigma_s=150, sigma_r=0.15)
             if self.detection_enabled:
                 self.detect_objects()
             return True, frame
