@@ -77,7 +77,7 @@ class GraspingGUI:
         # screenshot button
         self.screen_btn = ttk.Button(
             btn_frame,
-            text="Screen save",
+            text="Расчитать координаты",
             command=self.fillTable,
             width=15
         )
@@ -198,12 +198,8 @@ class GraspingGUI:
     def grab_object(self):
         """Взять  объект"""
         pos = self.vision.getPos()
-        #pos = pos.flatten()
         x = pos[0][0][0]
         y = pos[0][0][1]
-        #print(pos)
-        #print(x)
-        #print(y)
         armGrab.grab(x,y)
 
     

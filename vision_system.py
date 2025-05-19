@@ -18,8 +18,10 @@ class VisionSystem:
         
     def get_frame(self):
         ret, frame = self.cap.read()
+
         if ret:
-            self.current_frame = frame.copy()
+            #self.current_frame = frame.copy()
+            self.current_frame = cv2.detailEnhance(frame, sigma_s=70, sigma_r=0.15)
             if self.detection_enabled:
                 self.detect_objects()
             return True, frame
@@ -89,7 +91,7 @@ class VisionSystem:
         for cnt in contours:
             objNum = objNum + 1
             area = cv2.contourArea(cnt)
-            if area > 10:  # Игнорируем маленькие объекты
+            if area > 500:  # Игнорируем маленькие объекты
                 x, y, w, h = cv2.boundingRect(cnt)
                 if h > 2:
                     # Вычисление центра масс

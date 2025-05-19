@@ -39,7 +39,7 @@ import time
 def grab(angle1,angle2):
 
     side = "left"
-    arm = Rooky2.Rooky('COM5', side)
+    arm = Rooky2.Rooky('COM3', side)
     arm.move_joints([{
             'name':'{0}_arm_1_joint'.format(side),
             'degree': 90
@@ -85,6 +85,8 @@ def grab(angle1,angle2):
             'name':'{0}_arm_1_joint'.format(side),
             'degree': 0
         },],2)
+    
+    #return True
 
     # Вернем все суставы в начальное положение
     arm.reset_joints()
