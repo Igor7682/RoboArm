@@ -4,8 +4,10 @@ from tkinter import ttk
 from PIL import Image, ImageTk
 import cv2
 import numpy as np
-import armGrab
+from armGrab import arm
 from settings import COLORS
+import threading
+import time
 
 
 class GraspingGUI:
@@ -200,7 +202,10 @@ class GraspingGUI:
         pos = self.vision.getPos()
         x = pos[0][0][0]
         y = pos[0][0][1]
-        armGrab.grab(x,y)
+        arm1 = arm()
+        arm1.grab(x,y)
+        #del arm1
+        print(x)
 
     
     def update_video(self):

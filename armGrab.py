@@ -2,7 +2,6 @@
 # -*- coding: utf-8 -*-
 #
 #
-"""Пример работы с манипулятором Rooky."""
 
 __author__ = "Promobot"
 __license__ = "Apache License, Version 2.0"
@@ -36,68 +35,103 @@ import time
 #5 - вращение локтя 172
 #6 - кисть вверх.вниз 51
 #7 - пальцы 74
-def grab(angle1,angle2):
 
-    side = "left"
-    arm = Rooky2.Rooky('COM3', side)
-    arm.move_joints([{
-            'name':'{0}_arm_1_joint'.format(side),
-            'degree': 90
-        },],2)
-    arm.move_joints([{
-            'name':'{0}_arm_2_joint'.format(side),
-            'degree': angle1
-        },],2)
+class arm():
 
-    arm.move_joints([{
-            'name':'{0}_arm_1_joint'.format(side),
-            'degree': angle2
-        },],2)
-    arm.move_joints([{
-            'name':'{0}_arm_7_joint'.format(side),
-            'degree': 74
-        },],2)
-    arm.move_joints([{
-            'name':'{0}_arm_1_joint'.format(side),
-            'degree': 90
-        },],2)
-    arm.move_joints([{
-            'name':'{0}_arm_1_joint'.format(side),
-            'degree': angle2
-        },],2)
-    arm.move_joints([{
-            'name':'{0}_arm_7_joint'.format(side),
-            'degree': 0
-        },],2)
-    time.sleep(2)
+    def __init__(self):
+        self.side = "left"
 
-    #Груз зафиксирован, рука находится в стартовом положении
+    def grab(angle1,angle2):
+        
+        side = "left"
+        arm = Rooky2.Rooky('COM3', side)
+        arm.move_joints([{
+                'name':'{0}_arm_1_joint'.format(side),
+                'degree': 90
+            },],2)
+        arm.move_joints([{
+                'name':'{0}_arm_2_joint'.format(side),
+                'degree': angle1
+            },],2)
 
-    arm.move_joints([{
-            'name':'{0}_arm_1_joint'.format(side),
-            'degree': 90
-        },],2)
-    arm.move_joints([{
-            'name':'{0}_arm_2_joint'.format(side),
-            'degree': 0
-        },],2)
-    arm.move_joints([{
-            'name':'{0}_arm_1_joint'.format(side),
-            'degree': 0
-        },],2)
+        arm.move_joints([{
+                'name':'{0}_arm_1_joint'.format(side),
+                'degree': angle2
+            },],2)
+        arm.move_joints([{
+                'name':'{0}_arm_7_joint'.format(side),
+                'degree': 74
+            },],2)
+        arm.move_joints([{
+                'name':'{0}_arm_1_joint'.format(side),
+                'degree': 90
+            },],2)
+        arm.move_joints([{
+                'name':'{0}_arm_1_joint'.format(side),
+                'degree': angle2
+            },],2)
+        arm.move_joints([{
+                'name':'{0}_arm_7_joint'.format(side),
+                'degree': 0
+            },],2)
+        time.sleep(2)
+
+        #Груз зафиксирован, рука находится в стартовом положении
+
+        arm.move_joints([{
+                'name':'{0}_arm_1_joint'.format(side),
+                'degree': 90
+            },],2)
+        arm.move_joints([{
+                'name':'{0}_arm_2_joint'.format(side),
+                'degree': 0
+            },],2)
+        arm.move_joints([{
+                'name':'{0}_arm_1_joint'.format(side),
+                'degree': 0
+            },],2)
+        
+        #return True
+
+        # Вернем все суставы в начальное положение
+        arm.reset_joints()
+
+        # Получим информацию о состоянии сервоприводов
+        for i in arm.read_servos_data():
+            print(i)
+
+
+    def test():
+
+        side = "left"
+        arm = Rooky2.Rooky('COM3', side)
+        arm.move_joints([{
+                'name':'{0}_arm_1_joint'.format(side),
+                'degree': -20
+            },],2)
+        
+        arm.move_joints([{
+                'name':'{0}_arm_1_joint'.format(side),
+                'degree': 0
+            },],2)
+        
+    def paint():
+
+        side = "left"
+        arm = Rooky2.Rooky('COM3', side)
+        arm.move_joints([{
+                'name':'{0}_arm_1_joint'.format(side),
+                'degree': 45
+            },],2)
+        
+        arm.move_joints([{
+                'name':'{0}_arm_1_joint'.format(side),
+                'degree': 0
+            },],2)
     
-    #return True
-
-    # Вернем все суставы в начальное положение
-    arm.reset_joints()
-
-    # Получим информацию о состоянии сервоприводов
-    for i in arm.read_servos_data():
-        print(i)
-
 if __name__ == "__main__":
     ang1 = 30
     ang2 = 63
-    #grab(ang1,ang2)
+    #paint()
 
 
