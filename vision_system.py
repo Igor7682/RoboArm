@@ -96,7 +96,7 @@ class VisionSystem:
             area = cv2.contourArea(cnt)
             if area > 500:  # Игнорируем маленькие объекты
                 x, y, w, h = cv2.boundingRect(cnt)
-                if h > 2:
+                if x > 100:
                     # Вычисление центра масс
                     M = cv2.moments(cnt)
                     if M["m00"] != 0:

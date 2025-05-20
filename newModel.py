@@ -56,7 +56,7 @@ def train(X_normalized,Y_normalized):
 
 
 def predict(input_values):
-    model.load_state_dict(torch.load('newModel6.pth'))
+    model.load_state_dict(torch.load('newModel5.pth'))
     # print(input_values)
     # model.eval()
     # with torch.no_grad():
