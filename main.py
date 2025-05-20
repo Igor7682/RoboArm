@@ -32,6 +32,6 @@ def main():
     finally:
         if 'vision_system' in locals():
             vision_system.release()
-
+        
 if __name__ == "__main__":
     main()

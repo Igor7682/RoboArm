@@ -14,7 +14,8 @@ def normData():
     Y_mean, Y_std = Y.mean(dim=0), Y.std(dim=0)
     X_normalized = (X - X_mean) / X_std
     Y_normalized = (Y - Y_mean) / Y_std
-    return X_normalized, Y_normalized
+    noisy_X = X + torch.randn_like(X) * 5
+    return noisy_X, Y_normalized
 
 # 2. Создание модели
 class TwoToTwoNet(nn.Module):
@@ -55,7 +56,7 @@ def train(X_normalized,Y_normalized):
 
 
 def predict(input_values):
-    model.load_state_dict(torch.load('newModel5.pth'))
+    model.load_state_dict(torch.load('newModel6.pth'))
     # print(input_values)
     # model.eval()
     # with torch.no_grad():
@@ -106,4 +107,4 @@ if __name__ == "__main__":
     X_normalized, Y_normalized = normData()
     train(X_normalized,Y_normalized)
     test()
-    torch.save(model.state_dict(), 'newModel5.pth')
+    torch.save(model.state_dict(), 'newModel6.pth')
