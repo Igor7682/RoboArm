@@ -140,7 +140,7 @@ class GraspingGUI:
         scrollbar = ttk.Scrollbar(parent, orient="vertical", command=self.objects_tree.yview)
         self.objects_tree.configure(yscrollcommand=scrollbar.set)
     
-
+    
       
         self.objects_tree.pack(side='left', fill='both', expand=True)
 
