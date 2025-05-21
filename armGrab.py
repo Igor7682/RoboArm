@@ -9,33 +9,18 @@ __status__ = "Production"
 __url__ = "https://git.promo-bot.ru"
 __version__ = "0.1.0"
 
-# Импортируем необходимые библиотеки
-# Библиотека для работы с Rooky версии 2
 import Rooky2
-
-# Библиотека для работы с временными задержками
 import time
 import random
 
-# Укажем тип Rooky left или right
 
-
-#83-75-67-59
-#37-44-51-60
-# Создадим объект Rooky в соответствии с его типом: левая или правая
-# '/dev/RS_485' - последовательный порт, для ubuntu по умолчанию - '/dev/RS_485'.
-
-
-
-
-
-#1 - рука вверх.вниз 160
-#2 - рука влево.вправо 83
-#3 - вращение руки 173
-#4 - локоть влево.вправо 80
-#5 - вращение локтя 172
-#6 - кисть вверх.вниз 51
-#7 - пальцы 74
+# joint_limits['_arm_1_joint'] = [-25, 134]
+# joint_limits['_arm_2_joint'] = [0, 83]
+# joint_limits['_arm_3_joint'] = [-90, 83]
+# joint_limits['_arm_4_joint'] = [0, 80]
+# joint_limits['_arm_5_joint'] = [-86, 86]
+# joint_limits['_arm_6_joint'] = [-20, 31]
+# joint_limits['_arm_7_joint'] = [0, 74]
 
 class arm():
 
@@ -72,13 +57,26 @@ class arm():
 
         self.armMove(angle1)
         self.grabObj(angle1,angle2)
-        self.placeObj(angle2)
+        self.toTable()
+        #self.placeObj(angle2)
         self.armReset()
 
     def armReset(self):
         self.arm.move_joints([{
                 'name':'{0}_arm_1_joint'.format(self.side),
                 'degree': 90
+            },],2)
+        self.arm.move_joints([{
+                'name':'{0}_arm_4_joint'.format(self.side),
+                'degree': 0
+            },],2)
+        self.arm.move_joints([{
+                'name':'{0}_arm_5_joint'.format(self.side),
+                'degree': 0
+            },],2)
+        self.arm.move_joints([{
+                'name':'{0}_arm_3_joint'.format(self.side),
+                'degree': 0
             },],2)
         self.arm.move_joints([{
                 'name':'{0}_arm_2_joint'.format(self.side),
@@ -125,6 +123,56 @@ class arm():
             },],2)
         
 
+    def to75(self):
+        self.arm.move_joints([{
+                'name':'{0}_arm_1_joint'.format(self.side),
+                'degree': 90
+            },],2)
+        self.arm.move_joints([{
+                'name':'{0}_arm_2_joint'.format(self.side),
+                'degree': 75
+            },],2)
+        self.arm.move_joints([{
+                'name':'{0}_arm_3_joint'.format(self.side),
+                'degree': 80
+            },],2)      
+        self.arm.move_joints([{
+                'name':'{0}_arm_5_joint'.format(self.side),
+                'degree': -40
+            },],2)   
+        self.arm.move_joints([{
+                'name':'{0}_arm_4_joint'.format(self.side),
+                'degree': 40
+            },],2)       
+        
+    def toTable(self):
+        self.arm.move_joints([{
+                'name':'{0}_arm_1_joint'.format(self.side),
+                'degree': 90
+            },],2)
+        self.arm.move_joints([{
+                'name':'{0}_arm_2_joint'.format(self.side),
+                'degree': 0
+            },],2) 
+        self.arm.move_joints([{
+                'name':'{0}_arm_3_joint'.format(self.side),
+                'degree': 20
+            },],2) 
+        self.arm.move_joints([{
+                'name':'{0}_arm_4_joint'.format(self.side),
+                'degree': 30
+            },],2)  
+        self.arm.move_joints([{
+                'name':'{0}_arm_1_joint'.format(self.side),
+                'degree': 80
+            },],2)
+        self.arm.move_joints([{
+                'name':'{0}_arm_7_joint'.format(self.side),
+                'degree': 0
+            },],2)
+
+        
+
     def test(self):
 
         self.arm.move_joints([{
@@ -137,25 +185,13 @@ class arm():
                 'degree': 0
             },],2)
         
-    def paint(self):
-
-        side = "left"
-        self.arm = Rooky2.Rooky('COM3', side)
-        self.arm.move_joints([{
-                'name':'{0}_arm_1_joint'.format(side),
-                'degree': 45
-            },],2)
-        
-        self.arm.move_joints([{
-                'name':'{0}_arm_1_joint'.format(side),
-                'degree': 0
-            },],2)
     
 if __name__ == "__main__":
     ang1 = 50
     ang2 = 57
     arm1 = arm()
-    arm1.grab(ang1,ang2)
+    arm1.toTable()
+    arm1.armReset()
     #arm.arm.arm.reset_joints()
 
 

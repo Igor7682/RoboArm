@@ -4,6 +4,8 @@ from gui import GraspingGUI
 from vision_system import VisionSystem
 from robot_arm import RobotArm
 
+
+
 def main():
     try:
         # Инициализация систем

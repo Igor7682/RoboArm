@@ -8,6 +8,9 @@ from armGrab import arm
 from settings import COLORS
 import threading
 import time
+import multiprocessing
+# import main
+
 
 
 class GraspingGUI:
@@ -204,9 +207,12 @@ class GraspingGUI:
         y = pos[0][0][1]
         arm1 = arm()
         arm1.grab(x,y)
-        #del arm1
         print(x)
         print(y)
+        #time.sleep(10)
+        #self.root.destroy()
+        #main.main()
+
 
     
     def update_video(self):
