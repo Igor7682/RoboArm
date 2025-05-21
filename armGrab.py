@@ -45,7 +45,7 @@ class arm():
         self.arm.set_touch_sensor_threshold(50)
 
 
-    def armMove(self,angle1,angle2):
+    def armMove(self,angle1):
         self.arm.move_joints([{
                 'name':'{0}_arm_1_joint'.format(self.side),
                 'degree': 90
@@ -54,53 +54,26 @@ class arm():
                 'name':'{0}_arm_2_joint'.format(self.side),
                 'degree': angle1
             },],2)
-
-        self.arm.move_joints([{
-                'name':'{0}_arm_1_joint'.format(self.side),
-                'degree': angle2
-            },],2)
-        self.arm.move_joints([{
-                'name':'{0}_arm_7_joint'.format(self.side),
-                'degree': 74
-            },],2)
-        self.arm.move_joints([{
-                'name':'{0}_arm_1_joint'.format(self.side),
-                'degree': 90
-            },],2)
+        # self.arm.move_joints([{
+        #         'name':'{0}_arm_1_joint'.format(self.side),
+        #         'degree': angle2
+        #     },],2)
+        # self.arm.move_joints([{
+        #         'name':'{0}_arm_7_joint'.format(self.side),
+        #         'degree': 74
+        #     },],2)
+        # self.arm.move_joints([{
+        #         'name':'{0}_arm_1_joint'.format(self.side),
+        #         'degree': 90
+        #     },],2)
 
 
     def grab(self,angle1,angle2):
 
-        self.armMove(angle1,angle2)
-        # while True:
-        #     if self.arm.is_touched():
-        #         self.placeObj(angle2)
-        #         break
-        #     else:
-        #         angle1 = angle1 + random.uniform(-0.5, 0.5)
-        #         angle2 = angle2 + random.uniform(-0.5, 0.5)
-        #         self.arm.move_joints([{
-        #         'name':'{0}_arm_7_joint'.format(self.side),
-        #         'degree': 0
-        #     },],2)
-        #         self.grabObj(angle1,angle2)
-
-
-        self.grabObj()
-        self.placeObj()
-
-                
-
-        #time.sleep(2)
-
+        self.armMove(angle1)
+        self.grabObj(angle1,angle2)
+        self.placeObj(angle2)
         self.armReset()
-
-        #self.arm.reset_joints()
-
-        # Получим информацию о состоянии сервоприводов
-        # for i in arm.read_servos_data():
-        #     print(i)
-
 
     def armReset(self):
         self.arm.move_joints([{
@@ -119,10 +92,10 @@ class arm():
 
     def grabObj(self,angle1,angle2):
         
-        self.arm.move_joints([{
-                'name':'{0}_arm_2_joint'.format(self.side),
-                'degree': angle1
-            },],2)
+        # self.arm.move_joints([{
+        #         'name':'{0}_arm_2_joint'.format(self.side),
+        #         'degree': angle1
+        #     },],2)
         self.arm.move_joints([{
                 'name':'{0}_arm_1_joint'.format(self.side),
                 'degree': angle2
@@ -179,9 +152,10 @@ class arm():
             },],2)
     
 if __name__ == "__main__":
-    # ang1 = 30
-    # ang2 = 63
-    arm = arm()
+    ang1 = 50
+    ang2 = 57
+    arm1 = arm()
+    arm1.grab(ang1,ang2)
     #arm.arm.arm.reset_joints()
 
 
