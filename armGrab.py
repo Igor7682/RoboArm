@@ -15,6 +15,7 @@ import Rooky2
 
 # Библиотека для работы с временными задержками
 import time
+import random
 
 # Укажем тип Rooky left или right
 
@@ -40,98 +41,147 @@ class arm():
 
     def __init__(self):
         self.side = "left"
+        self.arm = Rooky2.Rooky('COM3', self.side)
+        self.arm.set_touch_sensor_threshold(50)
 
-    def grab(angle1,angle2):
-        
-        side = "left"
-        arm = Rooky2.Rooky('COM3', side)
-        arm.move_joints([{
-                'name':'{0}_arm_1_joint'.format(side),
+
+    def armMove(self,angle1,angle2):
+        self.arm.move_joints([{
+                'name':'{0}_arm_1_joint'.format(self.side),
                 'degree': 90
             },],2)
-        arm.move_joints([{
-                'name':'{0}_arm_2_joint'.format(side),
+        self.arm.move_joints([{
+                'name':'{0}_arm_2_joint'.format(self.side),
                 'degree': angle1
             },],2)
 
-        arm.move_joints([{
-                'name':'{0}_arm_1_joint'.format(side),
+        self.arm.move_joints([{
+                'name':'{0}_arm_1_joint'.format(self.side),
                 'degree': angle2
             },],2)
-        arm.move_joints([{
-                'name':'{0}_arm_7_joint'.format(side),
+        self.arm.move_joints([{
+                'name':'{0}_arm_7_joint'.format(self.side),
                 'degree': 74
             },],2)
-        arm.move_joints([{
-                'name':'{0}_arm_1_joint'.format(side),
+        self.arm.move_joints([{
+                'name':'{0}_arm_1_joint'.format(self.side),
                 'degree': 90
             },],2)
-        arm.move_joints([{
-                'name':'{0}_arm_1_joint'.format(side),
-                'degree': angle2
-            },],2)
-        arm.move_joints([{
-                'name':'{0}_arm_7_joint'.format(side),
-                'degree': 0
-            },],2)
-        time.sleep(2)
 
-        #Груз зафиксирован, рука находится в стартовом положении
 
-        arm.move_joints([{
-                'name':'{0}_arm_1_joint'.format(side),
-                'degree': 90
-            },],2)
-        arm.move_joints([{
-                'name':'{0}_arm_2_joint'.format(side),
-                'degree': 0
-            },],2)
-        arm.move_joints([{
-                'name':'{0}_arm_1_joint'.format(side),
-                'degree': 0
-            },],2)
-        
-        #return True
+    def grab(self,angle1,angle2):
 
-        # Вернем все суставы в начальное положение
-        arm.reset_joints()
+        self.armMove(angle1,angle2)
+        # while True:
+        #     if self.arm.is_touched():
+        #         self.placeObj(angle2)
+        #         break
+        #     else:
+        #         angle1 = angle1 + random.uniform(-0.5, 0.5)
+        #         angle2 = angle2 + random.uniform(-0.5, 0.5)
+        #         self.arm.move_joints([{
+        #         'name':'{0}_arm_7_joint'.format(self.side),
+        #         'degree': 0
+        #     },],2)
+        #         self.grabObj(angle1,angle2)
+
+
+        self.grabObj()
+        self.placeObj()
+
+                
+
+        #time.sleep(2)
+
+        self.armReset()
+
+        #self.arm.reset_joints()
 
         # Получим информацию о состоянии сервоприводов
-        for i in arm.read_servos_data():
-            print(i)
+        # for i in arm.read_servos_data():
+        #     print(i)
 
 
-    def test():
+    def armReset(self):
+        self.arm.move_joints([{
+                'name':'{0}_arm_1_joint'.format(self.side),
+                'degree': 90
+            },],2)
+        self.arm.move_joints([{
+                'name':'{0}_arm_2_joint'.format(self.side),
+                'degree': 0
+            },],2)
+        self.arm.move_joints([{
+                'name':'{0}_arm_1_joint'.format(self.side),
+                'degree': 0
+            },],2)
+        #self.arm.reset_joints()
 
-        side = "left"
-        arm = Rooky2.Rooky('COM3', side)
-        arm.move_joints([{
-                'name':'{0}_arm_1_joint'.format(side),
+    def grabObj(self,angle1,angle2):
+        
+        self.arm.move_joints([{
+                'name':'{0}_arm_2_joint'.format(self.side),
+                'degree': angle1
+            },],2)
+        self.arm.move_joints([{
+                'name':'{0}_arm_1_joint'.format(self.side),
+                'degree': angle2
+            },],2)
+        self.arm.move_joints([{
+                'name':'{0}_arm_7_joint'.format(self.side),
+                'degree': 74
+            },],2)
+        self.arm.move_joints([{
+                'name':'{0}_arm_1_joint'.format(self.side),
+                'degree': 90
+            },],2)
+        
+
+    def placeObj(self,angle2):
+        self.arm.move_joints([{
+                'name':'{0}_arm_1_joint'.format(self.side),
+                'degree': angle2
+            },],2)
+        self.arm.move_joints([{
+                'name':'{0}_arm_7_joint'.format(self.side),
+                'degree': 0
+            },],2)
+        self.arm.move_joints([{
+                'name':'{0}_arm_1_joint'.format(self.side),
+                'degree': 90
+            },],2)
+        
+
+    def test(self):
+
+        self.arm.move_joints([{
+                'name':'{0}_arm_1_joint'.format(self.side),
                 'degree': -20
             },],2)
         
-        arm.move_joints([{
-                'name':'{0}_arm_1_joint'.format(side),
+        self.arm.move_joints([{
+                'name':'{0}_arm_1_joint'.format(self.side),
                 'degree': 0
             },],2)
         
-    def paint():
+    def paint(self):
 
         side = "left"
-        arm = Rooky2.Rooky('COM3', side)
-        arm.move_joints([{
+        self.arm = Rooky2.Rooky('COM3', side)
+        self.arm.move_joints([{
                 'name':'{0}_arm_1_joint'.format(side),
                 'degree': 45
             },],2)
         
-        arm.move_joints([{
+        self.arm.move_joints([{
                 'name':'{0}_arm_1_joint'.format(side),
                 'degree': 0
             },],2)
     
 if __name__ == "__main__":
-    ang1 = 30
-    ang2 = 63
-    #paint()
+    # ang1 = 30
+    # ang2 = 63
+    arm = arm()
+    #arm.arm.arm.reset_joints()
 
 

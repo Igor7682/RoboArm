@@ -206,6 +206,7 @@ class GraspingGUI:
         arm1.grab(x,y)
         #del arm1
         print(x)
+        print(y)
 
     
     def update_video(self):
