@@ -69,8 +69,12 @@ class VisionSystem:
         # lower = np.array([100, 150, 0])
         # upper = np.array([140, 255, 255])
 
+        #red
+        # lowerG = np.array([170,50,50])
+        # lowerG = np.array([180,255,255])
+
         #blue2 
-        lowerB = np.array([94, 80, 2])
+        lowerB = np.array([94, 80, 50])
         upperB= np.array([126, 255, 255])
 
 
@@ -78,7 +82,7 @@ class VisionSystem:
         maskB = cv2.bitwise_or(mask1, mask1)
 
         mask2 = cv2.inRange(hsv, lowerG, upperG)
-        maskG = cv2.bitwise_or(mask1, mask1)
+        maskG = cv2.bitwise_or(mask2, mask2)
 
         # Улучшение маски
         kernel = np.ones((5,5), np.uint8)
@@ -104,7 +108,7 @@ class VisionSystem:
             area = cv2.contourArea(cnt)
             if area > 500:  # Игнорируем маленькие объекты
                 x, y, w, h = cv2.boundingRect(cnt)
-                if x > 100:
+                if h > 100:
                     # Вычисление центра масс
                     M = cv2.moments(cnt)
                     if M["m00"] != 0:
@@ -138,7 +142,7 @@ class VisionSystem:
             area = cv2.contourArea(cnt)
             if area > 500:  # Игнорируем маленькие объекты
                 x, y, w, h = cv2.boundingRect(cnt)
-                if x > 100:
+                if h > 50:
                     # Вычисление центра масс
                     M = cv2.moments(cnt)
                     if M["m00"] != 0:

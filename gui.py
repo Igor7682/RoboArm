@@ -122,7 +122,7 @@ class GraspingGUI:
     
 
     def setup_objects_table(self, parent):
-        self.objects_tree = ttk.Treeview(parent, columns=('ID',"X","Y","W","H"), show='headings', height=2)
+        self.objects_tree = ttk.Treeview(parent, columns=('ID',"X","Y","W","H","Color"), show='headings', height=2)
         
 
         columns = {
@@ -202,6 +202,8 @@ class GraspingGUI:
         pos = self.vision.getPos()
         x = pos[0][0][0]
         y = pos[0][0][1]
+        print(x)
+        print(y)
         arm1 = arm()
         arm1.grab(x,y)
         #del arm1
