@@ -177,20 +177,26 @@ class arm():
 
         self.arm.move_joints([{
                 'name':'{0}_arm_1_joint'.format(self.side),
-                'degree': -20
+                'degree': 65
             },],2)
-        
         self.arm.move_joints([{
-                'name':'{0}_arm_1_joint'.format(self.side),
-                'degree': 0
+                'name':'{0}_arm_2_joint'.format(self.side),
+                'degree': 15
             },],2)
+        time.sleep(10)
+        self.arm.move_joints([{
+                'name':'{0}_arm_2_joint'.format(self.side),
+                'degree': 80
+            },],10)
+        
+        
         
     
 if __name__ == "__main__":
     ang1 = 50
     ang2 = 57
     arm1 = arm()
-    arm1.toTable()
+    arm1.test()
     arm1.armReset()
     #arm.arm.arm.reset_joints()
 
