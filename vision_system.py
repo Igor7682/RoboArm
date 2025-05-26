@@ -59,8 +59,8 @@ class VisionSystem:
         hsv = cv2.cvtColor(self.current_frame, cv2.COLOR_BGR2HSV)
         
         #green
-        # lower = np.array([36,25,25])
-        # upper = np.array([86, 255, 255])
+        lowerG = np.array([36,25,25])
+        upperG = np.array([86, 255, 255])
 
         #blue1
         # lower = np.array([90, 50, 70])
@@ -70,20 +70,28 @@ class VisionSystem:
         # upper = np.array([140, 255, 255])
 
         #blue2 
-        lower = np.array([94, 80, 2])
-        upper = np.array([126, 255, 255])
+        lowerB = np.array([94, 80, 2])
+        upperB= np.array([126, 255, 255])
 
 
-        mask1 = cv2.inRange(hsv, lower, upper)
-        mask = cv2.bitwise_or(mask1, mask1)
-        
+        mask1 = cv2.inRange(hsv, lowerB, upperB)
+        maskB = cv2.bitwise_or(mask1, mask1)
+
+        mask2 = cv2.inRange(hsv, lowerG, upperG)
+        maskG = cv2.bitwise_or(mask1, mask1)
+
         # Улучшение маски
         kernel = np.ones((5,5), np.uint8)
-        mask = cv2.morphologyEx(mask, cv2.MORPH_OPEN, kernel)
-        mask = cv2.morphologyEx(mask, cv2.MORPH_CLOSE, kernel)
+        maskB = cv2.morphologyEx(maskB, cv2.MORPH_OPEN, kernel)
+        maskB = cv2.morphologyEx(maskB, cv2.MORPH_CLOSE, kernel)
+
+        kernel = np.ones((5,5), np.uint8)
+        maskG = cv2.morphologyEx(maskG, cv2.MORPH_OPEN, kernel)
+        maskG = cv2.morphologyEx(maskG, cv2.MORPH_CLOSE, kernel)
         
         # Нахождение контуров
-        contours, _ = cv2.findContours(mask, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+        contours1, _1 = cv2.findContours(maskG, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+        contours2, _2 = cv2.findContours(maskB, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
         self.detected_objects = []
         self.objInfo.clear()
         self.armPos.clear()
@@ -91,7 +99,7 @@ class VisionSystem:
 
         
 
-        for cnt in contours:
+        for cnt in contours1:
             objNum = objNum + 1
             area = cv2.contourArea(cnt)
             if area > 500:  # Игнорируем маленькие объекты
@@ -109,7 +117,8 @@ class VisionSystem:
                         'position': (cx, cy),
                         'size': (w, h),
                         'contour': cnt,
-                        'area': area
+                        'area': area,
+                        'color': 'Green'
                     })
 
                     self.objInfo.append((
@@ -117,7 +126,42 @@ class VisionSystem:
                         x,
                         y,
                         w,
-                        h
+                        h,
+                        'Green'
+                    ))
+                    if x > 0:
+                        self.armPos.append(self.predPos(x,y))
+                        #print(self.armPos)
+
+        for cnt in contours2:
+            objNum = objNum + 1
+            area = cv2.contourArea(cnt)
+            if area > 500:  # Игнорируем маленькие объекты
+                x, y, w, h = cv2.boundingRect(cnt)
+                if x > 100:
+                    # Вычисление центра масс
+                    M = cv2.moments(cnt)
+                    if M["m00"] != 0:
+                        cx = int(M["m10"] / M["m00"])
+                        cy = int(M["m01"] / M["m00"])
+                    else:
+                        cx, cy = x + w//2, y + h//2
+                    
+                    self.detected_objects.append({
+                        'position': (cx, cy),
+                        'size': (w, h),
+                        'contour': cnt,
+                        'area': area,
+                        'color': 'Green'
+                    })
+
+                    self.objInfo.append((
+                        objNum,
+                        x,
+                        y,
+                        w,
+                        h,
+                        'Blue'
                     ))
                     if x > 0:
                         self.armPos.append(self.predPos(x,y))
