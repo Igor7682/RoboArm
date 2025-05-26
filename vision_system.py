@@ -156,7 +156,7 @@ class VisionSystem:
                         'size': (w, h),
                         'contour': cnt,
                         'area': area,
-                        'color': 'Green'
+                        'color': 'Blue'
                     })
 
                     self.objInfo.append((

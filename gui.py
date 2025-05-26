@@ -205,10 +205,13 @@ class GraspingGUI:
         pos = self.vision.getPos()
         x = pos[0][0][0]
         y = pos[0][0][1]
+        for obj in self.vision.detected_objects:
+            col = obj['color']
+        print(col)
         print(x)
         print(y)
         arm1 = arm()
-        arm1.grab(x,y)
+        arm1.grab(x,y,col)
         print(x)
         print(y)
         #time.sleep(10)

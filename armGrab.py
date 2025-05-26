@@ -53,13 +53,18 @@ class arm():
         #     },],2)
 
 
-    def grab(self,angle1,angle2):
+    def grab(self,angle1,angle2,color):
 
         self.armMove(angle1)
         self.grabObj(angle1,angle2)
-        self.toTable()
+        if color == 'lue':
+            self.toTable()
+        else:
+            self.to75()
         #self.placeObj(angle2)
         self.armReset()
+
+    
 
     def armReset(self):
         self.arm.move_joints([{
@@ -143,7 +148,12 @@ class arm():
         self.arm.move_joints([{
                 'name':'{0}_arm_4_joint'.format(self.side),
                 'degree': 40
-            },],2)       
+            },],2)  
+        self.arm.move_joints([{
+                'name':'{0}_arm_7_joint'.format(self.side),
+                'degree': 0
+            },],2)  
+             
         
     def toTable(self):
         self.arm.move_joints([{
