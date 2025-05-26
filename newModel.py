@@ -56,7 +56,7 @@ def train(X_normalized,Y_normalized):
 
 
 def predict(input_values):
-    model.load_state_dict(torch.load('newModel7.pth'))
+    model.load_state_dict(torch.load('newModel8.pth'))
     # print(input_values)
     # model.eval()
     # with torch.no_grad():
@@ -107,4 +107,4 @@ if __name__ == "__main__":
     X_normalized, Y_normalized = normData()
     train(X_normalized,Y_normalized)
     test()
-    torch.save(model.state_dict(), 'newModel7.pth')
+    torch.save(model.state_dict(), 'newModel8.pth')
