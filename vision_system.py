@@ -59,8 +59,9 @@ class VisionSystem:
         hsv = cv2.cvtColor(self.current_frame, cv2.COLOR_BGR2HSV)
         
         #green
-        lowerG = np.array([36,25,25])
-        upperG = np.array([86, 255, 255])
+        # lowerG = np.array([36,25,25])
+        # upperG = np.array([86, 255, 255])
+
 
         #blue1
         # lower = np.array([90, 50, 70])
@@ -71,7 +72,12 @@ class VisionSystem:
 
         #red
         # lowerG = np.array([170,50,50])
-        # lowerG = np.array([180,255,255])
+        # upperG = np.array([180,255,255])
+        lowerG = np.array([0, 50, 50])
+        upperG = np.array([10, 255, 255])
+        # lowerG = np.array([0, 20, 20])
+        # upperG = np.array([30, 255, 255])
+
 
         #blue2 
         lowerB = np.array([94, 80, 50])
@@ -122,7 +128,7 @@ class VisionSystem:
                         'size': (w, h),
                         'contour': cnt,
                         'area': area,
-                        'color': 'Green'
+                        'color': 'Red'
                     })
 
                     self.objInfo.append((
@@ -131,7 +137,7 @@ class VisionSystem:
                         y,
                         w,
                         h,
-                        'Green'
+                        'Red'
                     ))
                     if x > 0:
                         self.armPos.append(self.predPos(x,y))
