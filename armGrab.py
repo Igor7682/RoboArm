@@ -53,13 +53,18 @@ class arm():
         #     },],2)
 
 
-    def grab(self,angle1,angle2):
+    def grab(self,angle1,angle2,color):
 
         self.armMove(angle1)
         self.grabObj(angle1,angle2)
-        self.toTable()
+        if color == 'Blue':
+            self.toTable()
+        else:
+            self.to75()
         #self.placeObj(angle2)
         self.armReset()
+
+    
 
     def armReset(self):
         self.arm.move_joints([{
@@ -86,7 +91,7 @@ class arm():
                 'name':'{0}_arm_1_joint'.format(self.side),
                 'degree': 0
             },],2)
-        #self.arm.reset_joints()
+        self.arm.reset_joints()
 
     def grabObj(self,angle1,angle2):
         
@@ -143,7 +148,12 @@ class arm():
         self.arm.move_joints([{
                 'name':'{0}_arm_4_joint'.format(self.side),
                 'degree': 40
-            },],2)       
+            },],2)  
+        self.arm.move_joints([{
+                'name':'{0}_arm_7_joint'.format(self.side),
+                'degree': 0
+            },],2)  
+             
         
     def toTable(self):
         self.arm.move_joints([{
@@ -195,9 +205,9 @@ class arm():
 if __name__ == "__main__":
     ang1 = 50
     ang2 = 57
-    arm1 = arm()
-    arm1.test()
-    arm1.armReset()
+    #arm1 = arm()
+    #arm1.test()
+    #arm1.armReset()
     #arm.arm.arm.reset_joints()
 
 
