@@ -14,10 +14,10 @@ from settings import ARM_CONFIG
 # Y = torch.tensor([[30, 63],[35, 61] ,[40, 60], [45, 58], [50, 57]], dtype=torch.float32)
 # X = torch.tensor([[170, 215], [214, 190], [232, 169], [247, 149],[243,128]], dtype=torch.float32)
 # Y = torch.tensor([[30, 63],[35, 61] ,[40, 60], [45, 58], [50, 57]], dtype=torch.float32)
-
-
 # X = torch.tensor([[191, 217], [218, 183], [233, 170], [252, 153],[254,134]], dtype=torch.float32)
 # Y = torch.tensor([[30, 63],[35, 61] ,[40, 60], [45, 58], [50, 57]], dtype=torch.float32)
+
+
 
 X = torch.tensor([[203, 198], [236, 172], [254, 159], [279, 148],[287,130]], dtype=torch.float32)
 Y = torch.tensor([[30, 63],[35, 61] ,[40, 60], [45, 58], [50, 57]], dtype=torch.float32)
