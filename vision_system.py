@@ -76,8 +76,13 @@ class VisionSystem:
         # lowerG = np.array([0, 20, 20])
         # upperG = np.array([30, 255, 255])
 
-        lowerG = np.array([0, 50, 50])
-        upperG = np.array([10, 255, 255])
+        lowerG = np.array([320, 20, 20])
+        upperG = np.array([60, 255, 255])
+
+        lower_red1 = np.array([0, 120, 70])
+        upper_red1 = np.array([10, 255, 255])
+        lower_red2 = np.array([170, 120, 70])
+        upper_red2 = np.array([180, 255, 255])
 
         #blue2 
         lowerB = np.array([94, 80, 50])
@@ -87,8 +92,14 @@ class VisionSystem:
         mask1 = cv2.inRange(hsv, lowerB, upperB)
         maskB = cv2.bitwise_or(mask1, mask1)
 
-        mask2 = cv2.inRange(hsv, lowerG, upperG)
-        maskG = cv2.bitwise_or(mask2, mask2)
+
+        mask2 = cv2.inRange(hsv, lower_red1, upper_red1)
+        mask3 = cv2.inRange(hsv, lower_red2, upper_red2)
+
+        #mask2 = cv2.inRange(hsv, lowerG, upperG)
+
+
+        maskG = cv2.bitwise_or(mask2, mask3)
 
         # Улучшение маски
         kernel = np.ones((5,5), np.uint8)
