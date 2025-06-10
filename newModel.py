@@ -40,7 +40,7 @@ def train(X_normalized,Y_normalized):
 
     dataset = TensorDataset(X_normalized, Y_normalized)
     loader = DataLoader(dataset, batch_size=2, shuffle=True)
-
+    
     # Цикл обучения
     losses = []
     for epoch in range(500):
