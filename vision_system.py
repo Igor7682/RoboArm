@@ -73,11 +73,11 @@ class VisionSystem:
         #red
         # lowerG = np.array([170,50,50])
         # upperG = np.array([180,255,255])
-        lowerG = np.array([0, 50, 50])
-        upperG = np.array([10, 255, 255])
         # lowerG = np.array([0, 20, 20])
         # upperG = np.array([30, 255, 255])
 
+        lowerG = np.array([0, 50, 50])
+        upperG = np.array([10, 255, 255])
 
         #blue2 
         lowerB = np.array([94, 80, 50])

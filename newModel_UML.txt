@@ -1,0 +1,13 @@
+@startuml
+class TwoToTwoNet {
+    forward()
+    train()
+    predict()
+    test()
+        fc1
+    fc2
+    fc3
+    relu
+    __init__()
+}
+@enduml
