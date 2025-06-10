@@ -14,6 +14,7 @@ def main():
         
         # Создание интерфейса
         root = tk.Tk()
+        root.state("zoomed")
         root.geometry("1280x900")
         
         # Стиль для кнопок
