@@ -76,12 +76,12 @@ class VisionSystem:
         # lowerG = np.array([0, 20, 20])
         # upperG = np.array([30, 255, 255])
 
-        lowerG = np.array([320, 20, 20])
-        upperG = np.array([60, 255, 255])
+        lowerG = np.array([0, 50, 50])
+        upperG = np.array([40, 255, 255])
 
-        lower_red1 = np.array([0, 120, 70])
+        lower_red1 = np.array([5, 50, 50])
         upper_red1 = np.array([10, 255, 255])
-        lower_red2 = np.array([170, 120, 70])
+        lower_red2 = np.array([160, 50, 50])
         upper_red2 = np.array([180, 255, 255])
 
         #blue2 
@@ -125,7 +125,7 @@ class VisionSystem:
             area = cv2.contourArea(cnt)
             if area > 500:  # Игнорируем маленькие объекты
                 x, y, w, h = cv2.boundingRect(cnt)
-                if h > 100:
+                if h > 50:
                     # Вычисление центра масс
                     M = cv2.moments(cnt)
                     if M["m00"] != 0:

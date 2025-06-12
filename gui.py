@@ -60,19 +60,19 @@ class GraspingGUI:
         #detection button
         self.detection_btn = ttk.Button(
             btn_frame, 
-            text="Enable Detection", 
+            text="Включить обнаружение", 
             command=self.toggle_detection,
-            width=15
+            width=25
         )
         self.detection_btn.pack(side='left', padx=5)
         
         # grab button
         self.grab_btn = ttk.Button(
             btn_frame,
-            text="Grab Object",
+            text="Схватить объект",
             command=self.grab_object,
             state='disabled',
-            width=15
+            width=20
         )
         self.grab_btn.pack(side='left', padx=5)
 
@@ -84,7 +84,7 @@ class GraspingGUI:
             btn_frame,
             text="Расчитать координаты",
             command=self.fillTable,
-            width=15
+            width=25
         )
         self.screen_btn.pack(side='left', padx=5)
         
