@@ -1,5 +1,5 @@
 # Параметры камеры
-CAMERA_ID = 1  # ID камеры (0 для встроенной)
+CAMERA_ID = 0  # ID камеры (0 для встроенной)
 FRAME_WIDTH = 1920
 FRAME_HEIGHT = 1080
 
