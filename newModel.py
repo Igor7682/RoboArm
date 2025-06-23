@@ -53,6 +53,12 @@ def train(X_normalized,Y_normalized):
         losses.append(loss.item())
         if epoch % 50 == 0:
             print(f'Epoch {epoch}, Loss: {loss.item():.4f}')
+    
+    plt.plot(losses)
+    plt.title('График потерь при обучении')
+    plt.xlabel('Эпоха')
+    plt.ylabel('MSE Loss')
+    plt.show()
 
 
 def predict(input_values):
@@ -82,6 +88,8 @@ def predict(input_values):
 
 
 
+
+
 def test():
 # 5. Проверка на тестовых данных
     model.eval()
@@ -107,4 +115,4 @@ if __name__ == "__main__":
     X_normalized, Y_normalized = normData()
     train(X_normalized,Y_normalized)
     test()
-    torch.save(model.state_dict(), 'newModel8.pth')
+    torch.save(model.state_dict(), 'newModel9.pth')
