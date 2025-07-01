@@ -18,7 +18,7 @@ def normData():
     return X_normalized, Y_normalized
 
 # 2. Создание модели
-class TwoToTwoNet(nn.Module):
+class Model(nn.Module):
     def __init__(self):
         super().__init__()
         self.fc1 = nn.Linear(2, 32)  # 2 входа -> 32 нейрона
@@ -31,7 +31,7 @@ class TwoToTwoNet(nn.Module):
         x = self.relu(self.fc2(x))
         return self.fc3(x)
 
-model = TwoToTwoNet()
+model = Model()
 
 # 3. Обучение модели
 def train(X_normalized,Y_normalized):

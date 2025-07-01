@@ -19,5 +19,8 @@ from settings import ARM_CONFIG
 
 
 
-X = torch.tensor([[203, 198], [236, 172], [254, 159], [279, 148],[287,130]], dtype=torch.float32)
-Y = torch.tensor([[30, 63],[35, 61] ,[40, 60], [45, 58], [50, 57]], dtype=torch.float32)
+# X = torch.tensor([[203, 198], [236, 172], [254, 159], [279, 148],[287,130]], dtype=torch.float32)
+# Y = torch.tensor([[30, 63],[35, 61] ,[40, 60], [45, 58], [50, 57]], dtype=torch.float32)
+
+X = torch.tensor([[203, 198],[226, 182], [236, 172],[245, 165], [254, 159],[265, 154], [279, 148],[287,130]], dtype=torch.float32)
+Y = torch.tensor([[30, 63],[32,62],[35, 61],[40, 60] ,[42, 59], [45, 58],[47,57.5], [50, 57]], dtype=torch.float32)

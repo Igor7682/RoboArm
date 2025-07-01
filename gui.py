@@ -4,7 +4,7 @@ from tkinter import ttk
 from PIL import Image, ImageTk
 import cv2
 import numpy as np
-from armGrab import arm
+# from armGrab import arm
 from settings import COLORS
 import threading
 import time
@@ -152,21 +152,31 @@ class GraspingGUI:
 
 
 
-        self.objects_tree1 = ttk.Treeview(parent, columns=('1'), show='headings', height=2)
+        self.objects_tree1 = ttk.Treeview(parent, columns=("1","2",'3'), show='headings', height=5)
         
         columns = {
-            '1': {'text': 'Значения углов суставов', 'width': 40, 'anchor': 'center'},
+            '1': {'text': 'Номер', 'width': 40, 'anchor': 'center'},
+            '2': {'text': 'Сустав', 'width': 40, 'anchor': 'center'},
+            '3': {'text': 'Значение', 'width': 40, 'anchor': 'center'}
         }
         
         for col, params in columns.items():
             self.objects_tree1.heading(col, text=params['text'])
             self.objects_tree1.column(col, width=params['width'], anchor=params['anchor'])
         
+        
         scrollbar = ttk.Scrollbar(parent, orient="vertical", command=self.objects_tree.yview)
         self.objects_tree1.configure(yscrollcommand=scrollbar.set)
     
+        # for i in range(6):
+        self.objects_tree1.insert("", "end", values=(f"1", f"Надплечевой сустав", f"90.67"))
+        self.objects_tree1.insert("", "end", values=(f"2", f"Плечевой сустав вращение", f"33.45"))
+        self.objects_tree1.insert("", "end", values=(f"3", f"Плечевой сустав сгибание", f"65.53"))
+        self.objects_tree1.insert("", "end", values=(f"4", f"Локтевой сустав вращение", f"53.27"))
+        self.objects_tree1.insert("", "end", values=(f"5", f"Локтевой сустав сгибание", f"47.33"))
+        self.objects_tree1.insert("", "end", values=(f"6", f"Запястье", f"13.39"))
 
-      
+
         self.objects_tree1.pack(side='left', fill='both', expand=True)
 
         scrollbar.pack(side='right', fill='y')
@@ -210,8 +220,8 @@ class GraspingGUI:
         print(col)
         print(x)
         print(y)
-        arm1 = arm()
-        arm1.grab(x,y,col)
+        #arm1 = arm()
+        #arm1.grab(x,y,col)
         print(x)
         print(y)
         #time.sleep(10)
