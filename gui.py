@@ -134,6 +134,7 @@ class GraspingGUI:
             'Y': {'text': 'Y', 'width': 40, 'anchor': 'center'},
             'W': {'text': 'W', 'width': 40, 'anchor': 'center'},
             'H': {'text': 'H', 'width': 40, 'anchor': 'center'},
+            'Color': {'text': 'Color', 'width': 40, 'anchor': 'center'},
         }
         
         for col, params in columns.items():

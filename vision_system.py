@@ -48,6 +48,8 @@ class VisionSystem:
     
     def predPos(self,x,y):
         pos = predict([x, y])
+        pos[0][0] = round(pos[0][0],2)
+        pos[0][1] = round(pos[0][1],2)
         return pos
     
     def detect_objects(self):
